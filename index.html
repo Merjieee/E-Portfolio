@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary:#6366f1;
+  --secondary:#a78bfa;
+  --bg-light:#f9fafb;
+  --text-light:#2d2d2d;
+  --bg-dark:#000003;
+  --text-dark:#e5e5e5;
+  --radius:16px;
+  --shadow:0 8px 30px rgba(0,0,0,0.1);
+}
+
+/* Smooth scrolling */
+html {scroll-behavior:smooth;}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, var(--primary), #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Global styles */
+body {
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  line-height:1.6;
+  background:var(--bg-light);
+  color:var(--text-light);
+  transition:background 0.4s,color 0.4s;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+
+}
+body.dark {
+  background:var(--bg-dark);
+  color:var(--text-dark);
+}
+
+/* Header */
+header {
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(8px);
+  box-shadow:var(--shadow);
+  transition:background 0.4s;
+}
+body.dark header {background:rgba(15,15,20,0.8);}
+
+/* Navbar */
+nav {
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem;
+}
+.nav-links {
+  overflow-x: hidden; /* Prevent horizontal overflow in mobile menu */
+}
+
+nav a {
+  margin:0 0.5rem;
+  text-decoration:none;
+  font-weight:600;
+  color:inherit;
+  transition:0.3s;
+}
+nav a:hover {
+  color: var(--primary); /* solid purple in light mode */
+}
+
+/* Light mode hover + active */
+body:not(.dark) nav a:hover,
+body:not(.dark) nav a.active {
+  color:var(--primary);
+}
+
+/* Dark mode hover + active */
+body.dark nav a:hover,
+body.dark nav a.active {
+  background:linear-gradient(90deg,var(--primary),white);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Diamond-shaped Theme Toggle Button */
+.toggle-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  width: 55px;
+  height: 55px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.toggle-btn:hover {
+  background: var(--secondary);
+  transform: rotate(45deg) scale(1.1);
+}
+
+.toggle-btn:active {
+  transform: rotate(45deg) scale(0.9);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Keep the emoji/icon upright */
+.toggle-btn span {
+  transform: rotate(-45deg);
+  display: inline-block;
+  transition: transform 0.6s ease;
+}
+
+/* Spin effect when switching modes */
+.toggle-btn.spin span {
+  transform: rotate(315deg); /* 360 - 45 to stay visually upright */
+}
+
+/* Hero */
+.hero {
+  min-height:50vh;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:2rem;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  overflow:hidden;
+}
+.hero-text {
+  flex:1;
+  max-width:55%;
+  opacity:0;
+  transform:translateX(-50px);
+  animation:slideInLeft 1s forwards;
+}
+.hero-text h1 {font-size:2.8rem;margin-bottom:0.5rem;}
+.hero-text p {font-size:1.2rem;}
+.hero-pic {flex:1;display:flex;justify-content:flex-end;}
+.hero-pic img {
+  width:400px;
+  height:350px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-right:5rem;
+  border:6px solid var(--secondary);
+  box-shadow:var(--shadow);
+  opacity:0;
+  transform:scale(0.7);
+  animation:popIn 1s forwards 0.5s;
+}
+.social-icons {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-icons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: white;
+  color: var(--primary);
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+body.dark .social-icons a {
+  background: #1f1f27;
+  color: var(--secondary);
+}
+
+.social-icons a:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+body.dark .social-icons a:hover {
+  background: white;
+  color: var(--secondary);
+}
+
+body.dark .social-icons a {
+  background: #1f1f27;
+  color: var(--secondary);
+}
+
+.social-icons a:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+@keyframes slideInLeft {to{opacity:1;transform:translateX(0);}}
+@keyframes popIn {to{opacity:1;transform:scale(1);}}
+@media(max-width:768px){
+  .hero{flex-direction:column;text-align:center;}
+  .hero-text{max-width:100%;margin-bottom:1.5rem;}
+  .hero-pic{justify-content:center;}
+  .hero-pic img{width:200px;height:200px;margin-right:0;}
+}
+
+/* Sections */
+section {
+  max-width:1100px;
+  margin:3rem auto;
+  padding:0 1rem;
+  scroll-margin-top:80px;
+}
+h2 {
+  margin-bottom:1rem;
+  font-size:1.8rem;
+  color: var(--primary); /* solid purple in light mode */
+}
+section h2.gradient-text {
+  display:inline-block;
+}
+
+/* Cards */
+.card {
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(12px);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  box-shadow:var(--shadow);
+  transition:background 0.3s;
+}
+body.dark .card {background:rgba(30,30,40,0.6);}
+
+/* Skills */
+.grid {display:grid;gap:1rem;}
+.skills{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
+.skills div {
+  background:white;
+  padding:1rem;
+  border-radius:var(--radius);
+  text-align:center;
+  font-weight:600;
+  color:var(--primary);
+  box-shadow:var(--shadow);
+  transition:transform 0.3s;
+}
+.skills div:hover{transform:translateY(-5px);}
+body.dark .skills div{background:#1f1f27;color:var(--secondary);}
+
+/* Languages */
+.languages{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
+.languages div {
+  background:white;
+  padding:1.5rem 1rem;
+  border-radius:var(--radius);
+  text-align:center;
+  font-weight:600;
+  color:var(--primary);
+  box-shadow:var(--shadow);
+  transition:transform 0.3s,background 0.3s;
+}
+.languages div:hover{transform:translateY(-5px);}
+.languages i{font-size:3rem;display:block;margin-bottom:0.5rem;}
+body.dark .languages div{background:#1f1f27;color:var(--secondary);}
+
+/* Portfolio */
+.portfolio{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+.portfolio img {
+  width:100%;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:transform 0.3s;
+}
+/* Make certification images smaller */
+.cert-gallery img {
+  max-width: 80%; /* adjust size here (e.g., 60%, 50%) */
+  margin: 0 auto;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.portfolio img:hover{transform:scale(1.05);}
+
+/* Lightbox */
+.lightbox {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.8);
+  display:flex;justify-content:center;align-items:center;
+  visibility:hidden;opacity:0;
+  transition:0.3s;z-index:100;
+}
+.lightbox-content{text-align:center;color:white;max-width:80%;}
+.lightbox-content h3{margin-top:1rem;font-size:1.4rem;color:var(--secondary);}
+.lightbox-content p{font-size:1rem;color:#ccc;}
+.lightbox.active{visibility:visible;opacity:1;}
+.lightbox img{max-width:90%;max-height:90%;border-radius:var(--radius);box-shadow:var(--shadow);}
+.lightbox.certification-view img{max-width:80%;max-height:100vh;}
+.lightbox span{position:absolute;top:20px;right:40px;font-size:2rem;color:white;cursor:pointer;}
+
+/* Contact */
+form{display:grid;gap:1rem;}
+input,textarea{
+  padding:0.8rem;border-radius:var(--radius);
+  border:1px solid #ddd;
+}
+button{
+  padding:0.8rem;border:none;border-radius:var(--radius);
+  background:var(--primary);color:white;font-weight:600;
+  cursor:pointer;transition:0.3s;
+}
+button:hover{background:var(--secondary);}
+
+/* Footer */
+footer {
+  text-align:center;
+  padding:1rem;
+  background:#fff;
+  color:#555;
+  margin-top:2rem;
+  box-shadow:var(--shadow);
+}
+body.dark footer{background:#111;color:#aaa;}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(60px);transition:all 0.8s ease;}
+.reveal.active{opacity:1;transform:translateY(0);}
+/* ---------- Section titles:
+   Light mode = SOLID purple
+   Dark mode  = gradient purple → white
+   Put this at the END of your stylesheet so it overrides earlier rules
+---------- */
+
+/* Light mode: force solid purple for all h2 (including ones with .gradient-text) */
+body:not(.dark) h2,
+body:not(.dark) h2.gradient-text {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--primary) !important;
+}
+
+/* Dark mode: show gradient (override any earlier solid color) */
+body.dark h2,
+body.dark h2.gradient-text {
+  background: linear-gradient(90deg, var(--primary), #ffffff) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+/* Contact section layout */
+#contact {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;       /* title above form */
+  align-items: center;          /* center horizontally */
+  justify-content: flex-start;  /* keep title at top */
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Contact heading */
+#contact h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Contact form card */
+#contact .card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;               /* center horizontally */
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;       /* ensures padding doesn’t break width */
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 8px var(--secondary);
+}
+
+.send-btn {
+  background: var(--primary);
+  color: white;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.send-btn:hover {
+  background: var(--secondary);
+  transform: scale(1.05);
+}
+
+
+/* Dark mode fix */
+body.dark #contact .card {
+  background: rgba(25,25,35,0.85);
+}
+
+/* Input + Textarea uniform width */
+#contact input,
+#contact textarea {
+  font-size: 1rem;
+  width: 100%;                  /* makes both sides even */
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  padding: 0.8rem;
+  box-sizing: border-box;       /* ensures equal sizing */
+  background: #fff;
+}
+
+body.dark #contact input,
+body.dark #contact textarea {
+  background: #1e1e2a;
+  border-color: #444;
+  color: var(--text-dark);
+}
+
+/* Larger message box */
+#contact textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+/* Mobile adjustment */
+@media (max-width: 600px) {
+  #contact {
+    min-height: 70vh;
+    padding: 2rem 1rem;
+  }
+  #contact .card {
+    padding: 1.5rem;
+  }
+  #contact textarea {
+    min-height: 160px;
+  }
+}
+/* ===== mobile right-side slide menu (minimal, non-invasive) ===== */
+
+/* keep hamburger hidden on desktop by default */
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 30px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 110;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--text-light);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+body.dark .hamburger span {
+  background: var(--text-dark);
+}
+
+/* X Animation */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* hamburger active -> X */
+.hamburger.active span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.hamburger.active span:nth-child(2){ opacity:0; transform: scale(0); }
+.hamburger.active span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+/* mobile menu (hidden off-screen to the right) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -50%;
+  width: 50%;
+  max-width: 420px;
+  height: 100vh;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  box-shadow: -12px 0 30px rgba(0,0,0,0.15);
+  z-index: 1200;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap: 1rem;
+  padding: 2rem 1.2rem;
+  transition: right .36s cubic-bezier(.2,.9,.2,1), opacity .2s;
+  opacity: 0;
+}
+
+/* menu opened */
+.mobile-menu.open { right: 0; opacity: 1; }
+
+/* menu links vertical */
+.mobile-menu a {
+  display: block;
+  text-decoration: none;
+  color: var(--text-light);
+  font-weight:700;
+  font-size: 1.15rem;
+  padding: .5rem 0;
+  width:100%;
+  text-align:center;
+  transition: transform .28s, opacity .28s;
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+/* when open, animate links in with small stagger */
+.mobile-menu.open a { opacity: 1; transform: translateX(0); }
+.mobile-menu.open a:nth-child(1){ transition-delay: .05s }
+.mobile-menu.open a:nth-child(2){ transition-delay: .10s }
+.mobile-menu.open a:nth-child(3){ transition-delay: .15s }
+.mobile-menu.open a:nth-child(4){ transition-delay: .20s }
+.mobile-menu.open a:nth-child(5){ transition-delay: .25s }
+.mobile-menu.open a:nth-child(6){ transition-delay: .30s }
+
+/* small close button inside menu (top-left) */
+.mobile-menu .close-btn{
+  position:absolute; left:10px; top:10px; background:transparent; border:none; font-size:1.6rem; color:inherit; cursor:pointer;
+}
+
+/* dim overlay */
+.menu-overlay{
+  position:fixed; inset:0; background: rgba(0,0,0,0.35); opacity:0; visibility:hidden; z-index:1150; transition: opacity .3s;
+}
+.menu-overlay.show { opacity:1; visibility:visible; }
+
+/* dark mode adapt */
+body.dark .mobile-menu {
+  background: rgba(10,10,18,0.92);
+}
+body.dark .mobile-menu a { color: var(--text-dark); }
+
+/* make toggle smaller on mobile and ensure toggle sits before hamburger (we only change size here) */
+@media (max-width:768px){
+  .toggle-btn { width:40px; height:40px; font-size:1rem; }
+  /* hide desktop nav links on mobile (your nav's middle div) */
+  nav > div:nth-child(2) { display: none; }
+  .hamburger { display: inline-flex; }
+}
+
+/* disable page scroll when menu open */
+body.menu-open { overflow: hidden; touch-action: none; }
+/* --- Mobile navbar layout fix --- */
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Wrap the toggle and hamburger together on the right */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .toggle-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+/* === MOBILE: center social icons under the hero text (phones/tablets) === */
+@media (max-width: 768px) {
+  /* ensure hero stacks and centers its content */
+  .hero {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* make the hero-text a centered column so icons sit under the paragraph */
+  .hero-text {
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* center the social icons row and make it full-width so it truly centers */
+  .hero-text .social-icons,
+  .hero .social-icons {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin: 1rem 0 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+  }
+
+  /* ensure each icon is centered inside its circle and remove stray margins */
+  .social-icons a {
+    margin: 0 !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* keep the profile pic below the icons and centered */
+  .hero-pic {
+    order: 2 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 1rem !important;
+  }
+  .hero-pic img {
+    margin-right: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .skills {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+}
+@media (max-width: 768px) {
+  .skills {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .skills div {
+    width: 80%;
+    text-align: center;
+    padding: 0.8rem;
+    background: rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 10px;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+  }
+
+  .skills div:hover {
+    transform: scale(1.05);
+  }
+}
+/* === Mobile toggle inside hamburger menu === */
+@media (max-width: 768px) {
+  .desktop-toggle {
+    display: none !important;
+  }
+
+  .mobile-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .mobile-toggle {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-toggle span {
+    transform: rotate(-45deg);
+  }
+
+  .mobile-toggle:hover {
+    background: var(--secondary);
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-toggle-container {
+    display: none !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div><strong>Merjieee</strong></div>
+    <div>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#languages">Languages</a>
+      <a href="#portfolio">Projects</a>
+      <a href="#certifications">Certificate</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <!-- dark/light toggle (desktop only) -->
+    <button class="toggle-btn desktop-toggle" onclick="toggleMode()">
+      <span>🌙</span>
+    </button>
+
+    <!-- HAMBURGER (mobile only) -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- overlay for mobile menu -->
+  <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()" aria-hidden="true"></div>
+
+  <!-- right-side mobile menu (vertical links) -->
+  <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#skills" onclick="closeMenu()">Skills</a>
+    <a href="#languages" onclick="closeMenu()">Languages</a>
+    <a href="#portfolio" onclick="closeMenu()">Projects</a>
+    <a href="#certifications" onclick="closeMenu()">Certificate</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+
+    <!-- 🌙 Dark/Light toggle inside mobile menu -->
+    <div class="mobile-toggle-container">
+      <button class="toggle-btn mobile-toggle" onclick="toggleMode()">
+        <span>🌙</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Hello, I'm <span class="typing"></span></h1>
+    <p>
+      Studying at City College of Calamba <br>1st Year BSIT Student
+    </p>
+
+    <div class="social-icons">
+      <a href="https://www.facebook.com/jermie.gapas" target="_blank" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://www.instagram.com/her_merjieee/" target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-pic">
+    <img src="merj.jpg" alt="Profile">
+  </div>
+</section>
+
+
+<section id="about" class="reveal">
+  <h2 class="gradient-text">About Me</h2>
+  <div class="card">
+    <p>
+I'm an aspiring <strong>Network Engineer</strong> fueled by curiosity, creativity, and a deep passion for technology.  
+Currently studying <strong>BS Information Technology at City College of Calamba</strong>, I’m continuously expanding my knowledge in <strong>network systems, cybersecurity, and computer infrastructure</strong>.  
+I’m fascinated by how digital connections shape our world — from the smallest local networks to the vast web of global communication that keeps people connected every day.  
+
+My journey began with a love for computers and problem-solving, which grew into a dedication to understanding how systems operate and communicate securely.  
+I’m skilled in <strong>Computer System Services</strong>, where I’ve developed a strong foundation in hardware maintenance, troubleshooting, and configuration.  
+My growing expertise in <strong>Networking</strong> allows me to design, secure, and maintain reliable network infrastructures, while my interest in <strong>Cybersecurity</strong> drives me to explore how we can protect systems from evolving digital threats.  
+
+Aside from networking, I also enjoy building and designing <strong>web applications</strong> using <strong>HTML, CSS, JavaScript, and Python</strong>.  
+I believe that great design should not only look good but also create a smooth, engaging user experience — that’s why I integrate my <strong>UI design</strong> skills into every project I make.  
+
+Every challenge I take on is an opportunity to grow — whether it's setting up a network, securing a system, or crafting a website from scratch.  
+My goal is to become a professional who bridges creativity with technology, helping people and organizations stay connected, secure, and ahead in the digital world.
+</p>
+
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <h2 class="gradient-text">My Skills</h2>
+  <div class="grid skills">
+    <div>Computer System Services</div>
+    <div>Networking</div>
+    <div>Cybersecurity</div>
+    <div>Web Developing</div>
+    <div>UI Designing</div>
+  </div>
+</section>
+
+<section id="languages" class="reveal">
+  <h2 class="gradient-text">Markup/Languages I Use</h2>
+  <div class="grid languages">
+    <div><i class="devicon-html5-plain colored"></i><p>HTML</p></div>
+    <div><i class="devicon-css3-plain colored"></i><p>CSS</p></div>
+    <div><i class="devicon-javascript-plain colored"></i><p>JavaScript</p></div>
+    <div><i class="devicon-c-plain colored"></i><p>C</p></div>
+    <div><i class="devicon-cplusplus-plain colored"></i><p>C++</p></div>
+    <div><i class="devicon-python-plain colored"></i><p>Python</p></div>
+  </div>
+</section>
+
+<section id="portfolio" class="reveal">
+  <h2 class="gradient-text">My Projects</h2>
+  <div class="grid portfolio">
+    <div class="item" data-title="LCBA Website" data-desc="A responsive website project for LCBA TVL strand.">
+      <img src="ict.png" alt="Project 1">
+    </div>
+    <div class="item" data-title="Calculator App" data-desc="A simple web-based calculator built using HTML, CSS, and JavaScript.">
+      <img src="calcu.png" alt="Project 2">
+    </div>
+    <div class="item" data-title="YouTube MP3 Downloader" data-desc="A recreation of MP3 Downloader called AudioFetch.">
+      <img src="yt.png" alt="Project 3">
+    </div>
+    <div class="item" data-title="TIC TAC TOE Game" data-desc="A simple XOX Game.">
+      <img src="tictactoe.png" alt="Project 4">
+      <div class="item" data-title="E-Portfolio" data-desc="My own E-Portfolio.">
+      <img src="port.png" alt="Project 5">
+    </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications" class="reveal">
+  <h2 class="gradient-text">My Certifications</h2>
+  <div class="grid portfolio cert-gallery">
+    <div class="item" data-title="TESDA" data-desc="Completed the foundation of COVID-19 Preventive measurement of workplace.">
+      <img src="covid.jpg" alt="Certification 1">
+    </div>
+    <div class="item" data-title="TESDA NCII Computer System Services" data-desc="Passed an assessment of TESDA NCII CSS.">
+      <img src="GAPAS 2.0 .jpg" alt="Certification 2">
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <span onclick="closeLightbox()">&times;</span>
+  <div class="lightbox-content">
+    <img src="" alt="Expanded view">
+    <h3 id="lightbox-title"></h3>
+    <p id="lightbox-desc"></p>
+  </div>
+</div>
+
+<section id="contact" class="reveal">
+  <h2 class="gradient-text">Contact Me</h2>
+  <div class="card contact-card">
+    <form action="https://formsubmit.co/jermiegapas102@gmail.com" method="POST">
+      <!-- Hidden settings -->
+      <input type="hidden" name="_next" value="http://127.0.0.1:5500/thanks.html">
+      <input type="hidden" name="_captcha" value="false">
+
+      <label for="name"><strong>Your Name</strong></label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+      <label for="email"><strong>Your Email</strong></label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="message"><strong>Message</strong></label>
+      <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> Merjieee — All Rights Reserved
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function sendEmail(e){
+  e.preventDefault();
+  const {name,email,message} = e.target;
+  window.location.href = `mailto:jermiegapas102@gmail.com?subject=Message from ${name.value}&body=${message.value} (${email.value})`;
+}
+
+function toggleMode() {
+  const body = document.body;
+  const btn = document.querySelector(".toggle-btn");
+  const icon = btn.querySelector("span");
+
+  // Trigger spin animation
+  btn.classList.add("spin");
+
+  setTimeout(() => {
+    body.classList.toggle("dark");
+    icon.textContent = body.classList.contains("dark") ? "☀️" : "🌙";
+  }, 150); // slight delay to sync animation with icon switch
+
+  // Remove spin class after animation ends
+  setTimeout(() => btn.classList.remove("spin"), 600);
+}
+
+// Typing
+const typingEl = document.querySelector(".typing");
+const words = ["Jermie", "Merj"];
+let i=0,j=0,deleting=false;
+function typeEffect(){
+  let current=words[i];
+  if(!deleting){
+    typingEl.textContent=current.slice(0,++j);
+    if(j>current.length+2){deleting=true;setTimeout(typeEffect,1000);return;}
+  }else{
+    typingEl.textContent=current.slice(0,--j);
+    if(j<0){deleting=false;i=(i+1)%words.length;}
+  }
+  setTimeout(typeEffect,deleting?100:150);
+}
+typeEffect();
+
+// Lightbox
+const items=document.querySelectorAll(".portfolio .item img");
+const lightbox=document.getElementById("lightbox");
+const imgBox=lightbox.querySelector("img");
+const titleBox=document.getElementById("lightbox-title");
+const descBox=document.getElementById("lightbox-desc");
+items.forEach(img=>{
+  img.addEventListener("click",()=>{
+    const parent=img.closest(".item");
+    const gallery=img.closest(".portfolio");
+    lightbox.classList.add("active");
+    imgBox.src=img.src;
+    titleBox.textContent=parent.dataset.title;
+    descBox.textContent=parent.dataset.desc;
+    lightbox.classList.toggle("certification-view",gallery.classList.contains("cert-gallery"));
+  });
+});
+function closeLightbox(){lightbox.classList.remove("active","certification-view");}
+
+// Scroll reveal
+function revealSections(){
+  document.querySelectorAll(".reveal").forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    if(rect.top<window.innerHeight-150)el.classList.add("active");
+    else el.classList.remove("active");
+  });
+}
+window.addEventListener("scroll",revealSections);
+window.addEventListener("load",revealSections);
+
+// Navbar active highlight
+window.addEventListener("scroll",()=>{
+  const sections=document.querySelectorAll("section[id]");
+  const scrollY=window.scrollY+150;
+  sections.forEach(sec=>{
+    const top=sec.offsetTop;
+    const height=sec.offsetHeight;
+    const id=sec.getAttribute("id");
+    const link=document.querySelector(`nav a[href="#${id}"]`);
+    if(link){
+      if (scrollY >= top - 100 && scrollY < top + height) link.classList.add("active");
+      else link.classList.remove("active");
+    }
+  });
+});
+/* Mobile menu open/close helpers (safe, minimal) */
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+
+function toggleMenu(){
+  if(!mobileMenu || !menuOverlay || !hamburgerBtn) return;
+  const open = mobileMenu.classList.toggle('open');
+  menuOverlay.classList.toggle('show', open);
+  hamburgerBtn.classList.toggle('active', open);
+  document.body.classList.toggle('menu-open', open);
+  mobileMenu.setAttribute('aria-hidden', !open);
+  menuOverlay.setAttribute('aria-hidden', !open);
+}
+
+/* explicit close function used on overlay & link clicks */
+function closeMenu(){
+  if(!mobileMenu || !menuOverlay || !hamburgerBtn) return;
+  mobileMenu.classList.remove('open');
+  menuOverlay.classList.remove('show');
+  hamburgerBtn.classList.remove('active');
+  document.body.classList.remove('menu-open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  menuOverlay.setAttribute('aria-hidden', 'true');
+}
+
+/* close on ESC */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenu();
+});
+
+/* if user resizes to desktop, ensure mobile menu is closed */
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeMenu();
+});
+</script>
+</body>
+</html>
