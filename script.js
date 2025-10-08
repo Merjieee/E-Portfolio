@@ -273,5 +273,3 @@ window.addEventListener("scroll", () => {
   }
 });
 </script>
-
-</script>
