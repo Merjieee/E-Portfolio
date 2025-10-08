@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio</title>
+<title>Merjieee</title>
+<link rel="icon" type="image/png" href="btab.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -20,6 +21,18 @@
 
 /* Smooth scrolling */
 html {scroll-behavior:smooth;}
+/* === FIX: Smooth, stable typing animation === */
+.typing {
+  display: inline-block;
+  min-width: 8ch;           /* reserve space for longest word */
+  text-align: left;
+  white-space: nowrap;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
 
 /* Gradient text */
 .gradient-text {
@@ -136,15 +149,25 @@ body.dark nav a.active {
 
 /* Hero */
 .hero {
-  min-height:50vh;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:2rem;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:white;
-  overflow:hidden;
+  min-height: 50vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #5a00e0, #8a2be2, #d18aff);
+  background-size: 300% 300%;
+  animation: heroGradient 6s ease infinite;
+  color: white;
+  overflow: hidden;
+  transition: background 0.5s ease;
 }
+
+@keyframes heroGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .hero-text {
   flex:1;
   max-width:55%;
@@ -217,12 +240,59 @@ body.dark .social-icons a {
 
 @keyframes slideInLeft {to{opacity:1;transform:translateX(0);}}
 @keyframes popIn {to{opacity:1;transform:scale(1);}}
-@media(max-width:768px){
-  .hero{flex-direction:column;text-align:center;}
-  .hero-text{max-width:100%;margin-bottom:1.5rem;}
-  .hero-pic{justify-content:center;}
-  .hero-pic img{width:200px;height:200px;margin-right:0;}
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  /* Picture first */
+  .hero-pic {
+    order: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-pic img{width:225px;height:225px;margin-right:0;}
+
+  /* Text next */
+  .hero-text {
+    order: 2;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Icons last */
+  .hero-text .social-icons {
+    order: 3;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
 }
+
 
 /* Sections */
 section {
@@ -236,6 +306,15 @@ h2 {
   font-size:1.8rem;
   color: var(--primary); /* solid purple in light mode */
 }
+/* === Smooth justified text for About Me === */
+#about .card p {
+  text-align: justify;
+  text-justify: auto;
+  line-height: 1.7; /* adds gentle spacing between lines, not words */
+  hyphens: auto;    /* allows smooth word breaks to avoid huge gaps */
+  word-spacing: normal;
+}
+
 section h2.gradient-text {
   display:inline-block;
 }
@@ -337,7 +416,7 @@ footer {
   padding:1rem;
   background:#fff;
   color:#555;
-  margin-top:2rem;
+  margin-top:0.5rem;
   box-shadow:var(--shadow);
 }
 body.dark footer{background:#111;color:#aaa;}
@@ -383,6 +462,7 @@ body.dark h2.gradient-text {
 /* Contact heading */
 #contact h2 {
   margin-bottom: 2rem;
+  margin-top: 2rem;
   text-align: center;
 }
 
@@ -418,12 +498,18 @@ body.dark h2.gradient-text {
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-
-.contact-form input:focus,
-.contact-form textarea:focus {
+/* Light mode focus (adds glowing shadow) */
+body:not(.dark) #contact input:focus,
+body:not(.dark) #contact textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.6); /* noticeable purple glow */
   outline: none;
-  border-color: var(--secondary);
-  box-shadow: 0 0 8px var(--secondary);
+  background: #ffffff;
+}
+body:not(.dark) input:-webkit-autofill,
+body:not(.dark) textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: var(--text-light) !important;
 }
 
 .send-btn {
@@ -458,14 +544,35 @@ body.dark #contact .card {
   padding: 0.8rem;
   box-sizing: border-box;       /* ensures equal sizing */
   background: #fff;
+  
 }
 
+/* === FIX: Dark mode input + textarea stay dark while typing === */
 body.dark #contact input,
 body.dark #contact textarea {
-  background: #1e1e2a;
-  border-color: #444;
-  color: var(--text-dark);
+  background: #1a1a24;          /* consistent dark background */
+  border: 1px solid #555;       /* softer gray border */
+  color: var(--text-dark);      /* light text color */
+  caret-color: var(--secondary);/* purple typing cursor */
+  transition: background 0.3s, border 0.3s;
 }
+
+/* focus effect in dark mode */
+body.dark #contact input:focus,
+body.dark #contact textarea:focus {
+  background: #1a1a24;          /* no white flash */
+  border-color: var(--secondary);
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+  outline: none;
+}
+/* Prevent autofill from turning white in dark mode */
+body.dark input:-webkit-autofill,
+body.dark textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #1e1e2a inset !important; /* dark bg */
+  -webkit-text-fill-color: var(--text-dark) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 
 /* Larger message box */
 #contact textarea {
@@ -762,13 +869,212 @@ body.menu-open { overflow: hidden; touch-action: none; }
   }
 }
 
+/* === FINAL FIX: Navbar stays fixed + no horizontal scroll + visible mobile menu === */
+
+/* Prevent horizontal scroll on all devices */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Make header fixed at top of screen (stays visible when scrolling) */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add spacing so content doesn’t hide under navbar */
+body {
+  padding-top: 80px;
+}
+
+/* Mobile menu always visible when open, above header */
+.mobile-menu {
+  position: fixed !important;
+  top: 0;
+  right: -100%;
+  width: 75%;
+  max-width: 400px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 2000 !important;
+  transition: right 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* When open */
+.mobile-menu.open {
+  right: 0;
+}
+
+/* Overlay behind menu */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1900 !important;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.menu-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+/* === FIX: Lightbox view centering + full-screen scaling === */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 3000;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.lightbox span {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+  z-index: 3100;
+}
+
+.lightbox-content {
+  text-align: center;
+  color: white;
+  margin-top: 1rem;
+}
+
+.lightbox-content h3 {
+  margin: 0.5rem 0;
+  color: var(--secondary);
+}
+
+.lightbox-content p {
+  color: #ccc;
+  font-size: 1rem;
+}
+/* === FIX: Hero section padding & spacing in mobile view === */
+@media (max-width: 768px) {
+  .hero {
+    margin-top: 0 !important;
+    padding-top: 1rem !important; /* keeps it from touching the navbar */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  body {
+    padding-top: 70px; /* ensures content below doesn’t hide behind navbar */
+  }
+}
+/* === FIX: Prevent white flash from suggestion box in dark mode === */
+body.dark input,
+body.dark textarea {
+  background-color: #1e1e2a !important;
+  color: var(--text-dark) !important;
+  border-color: #444 !important;
+  -webkit-text-fill-color: var(--text-dark) !important; /* Keeps text color */
+}
+
+/* Keep dark color even when focused or hovered */
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark input:hover,
+body.dark textarea:hover {
+  background-color: #1e1e2a !important;
+  color: var(--text-dark) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 8px var(--primary);
+  -webkit-text-fill-color: var(--text-dark) !important;
+}
+
+/* Prevent browser autofill (suggestion box) from forcing white background */
+body.dark input:-webkit-autofill,
+body.dark textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1e1e2a inset !important;
+  -webkit-text-fill-color: var(--text-dark) !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+/* === LIGHT MODE: Keep white background + purple border on hover/focus === */
+body:not(.dark) input,
+body:not(.dark) textarea {
+  background-color: #ffffff !important;
+  color: var(--text-light) !important;
+  border: 1.5px solid #ccc !important;
+  border-radius: 12px;
+  -webkit-text-fill-color: var(--text-light) !important;
+  transition: all 0.3s ease;
+}
+
+/* Purple border on hover/focus */
+body:not(.dark) input:focus,
+body:not(.dark) textarea:focus,
+body:not(.dark) input:hover,
+body:not(.dark) textarea:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 8px var(--primary);
+  outline: none;
+}
+
+/* Prevent browser autofill flash */
+body:not(.dark) input:-webkit-autofill,
+body:not(.dark) textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: var(--text-light) !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+
+
 </style>
 </head>
 <body>
 
 <header>
   <nav>
-    <div><strong>Merjieee</strong></div>
+    <div>
+  <a href="#hero" class="logo-link" onclick="scrollToTopAndCloseMenu(event)"><strong>Merjieee</strong></a>
+</div>
+
     <div>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
@@ -812,7 +1118,7 @@ body.menu-open { overflow: hidden; touch-action: none; }
   </nav>
 </header>
 
-<section class="hero">
+<section id="hero" class="hero">
   <div class="hero-text">
     <h1>Hello, I'm <span class="typing"></span></h1>
     <p>
@@ -821,10 +1127,13 @@ body.menu-open { overflow: hidden; touch-action: none; }
 
     <div class="social-icons">
       <a href="https://www.facebook.com/jermie.gapas" target="_blank" aria-label="Facebook">
-        <i class="fab fa-facebook-f"></i>
+        <i class="fa-brands fa-facebook"></i>
       </a>
       <a href="https://www.instagram.com/her_merjieee/" target="_blank" aria-label="Instagram">
-        <i class="fab fa-instagram"></i>
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://github.com/Merjieee" target="_blank" aria-label="Github">
+        <i class="fa-brands fa-github"></i>
       </a>
     </div>
   </div>
@@ -839,21 +1148,10 @@ body.menu-open { overflow: hidden; touch-action: none; }
   <h2 class="gradient-text">About Me</h2>
   <div class="card">
     <p>
-I'm an aspiring <strong>Network Engineer</strong> fueled by curiosity, creativity, and a deep passion for technology.  
-Currently studying <strong>BS Information Technology at City College of Calamba</strong>, I’m continuously expanding my knowledge in <strong>network systems, cybersecurity, and computer infrastructure</strong>.  
-I’m fascinated by how digital connections shape our world — from the smallest local networks to the vast web of global communication that keeps people connected every day.  
+I'm an aspiring <strong>Network Engineer</strong> fueled by curiosity and a deep passion for technology. As a <strong>BS Information Technology student</strong> at <strong>City College of Calamba</strong>, I’m building my expertise in <strong>Network Systems</strong>, <strong>Cybersecurity</strong>, and <strong>Computer infrastructure</strong>. I’m fascinated by how digital connections from local networks to global systems keeping our world securely connected.
 
-My journey began with a love for computers and problem-solving, which grew into a dedication to understanding how systems operate and communicate securely.  
-I’m skilled in <strong>Computer System Services</strong>, where I’ve developed a strong foundation in hardware maintenance, troubleshooting, and configuration.  
-My growing expertise in <strong>Networking</strong> allows me to design, secure, and maintain reliable network infrastructures, while my interest in <strong>Cybersecurity</strong> drives me to explore how we can protect systems from evolving digital threats.  
-
-Aside from networking, I also enjoy building and designing <strong>web applications</strong> using <strong>HTML, CSS, JavaScript, and Python</strong>.  
-I believe that great design should not only look good but also create a smooth, engaging user experience — that’s why I integrate my <strong>UI design</strong> skills into every project I make.  
-
-Every challenge I take on is an opportunity to grow — whether it's setting up a network, securing a system, or crafting a website from scratch.  
-My goal is to become a professional who bridges creativity with technology, helping people and organizations stay connected, secure, and ahead in the digital world.
-</p>
-
+With a foundation in <strong>Computer System Services</strong>, I’ve developed strong skills in hardware maintenance, troubleshooting, and configuration. My growing knowledge in <strong>Networking</strong> and <strong>Cybersecurity</strong> allows me to design, secure, and maintain reliable systems. I also enjoy building <strong>Web Applications</strong> using HTML, CSS, JavaScript, and Python, combining functionality with creative <strong>UI Design</strong>. My goal is to bridge creativity and technology, helping people and organizations stay connected, secure, and innovative in the digital world.
+  </p>
   </div>
 </section>
 
@@ -925,27 +1223,23 @@ My goal is to become a professional who bridges creativity with technology, help
 <section id="contact" class="reveal">
   <h2 class="gradient-text">Contact Me</h2>
   <div class="card contact-card">
-    <form action="https://formsubmit.co/jermiegapas102@gmail.com" method="POST">
-      <!-- Hidden settings -->
-      <input type="hidden" name="_next" value="http://127.0.0.1:5500/thanks.html">
-      <input type="hidden" name="_captcha" value="false">
+   <form id="contact-form">
 
-      <label for="name"><strong>Your Name</strong></label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required>
 
-      <label for="email"><strong>Your Email</strong></label>
-      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
 
-      <label for="message"><strong>Message</strong></label>
-      <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
+  <button type="submit" id="cf-submit" class="submit">Send Message</button>
 
-      <button type="submit">Send Message</button>
-    </form>
+</form>
+  <div id="form-status" style="display:none; margin-top:1rem; font-weight:600;"></div>
+
   </div>
 </section>
 
 <footer>
-  © <span id="year"></span> Merjieee — All Rights Reserved
+  @ <span id="year"></span> Merjieee — Portfolio Website
 </footer>
 
 <script>
@@ -957,58 +1251,75 @@ function sendEmail(e){
   window.location.href = `mailto:jermiegapas102@gmail.com?subject=Message from ${name.value}&body=${message.value} (${email.value})`;
 }
 
-function toggleMode() {
+function toggleMode(event) {
+  event?.stopPropagation(); // prevent double triggering
+
   const body = document.body;
-  const btn = document.querySelector(".toggle-btn");
-  const icon = btn.querySelector("span");
+  const isDark = body.classList.toggle("dark");
 
-  // Trigger spin animation
-  btn.classList.add("spin");
+  // Update ALL toggle buttons (desktop + mobile)
+  const buttons = document.querySelectorAll(".toggle-btn");
+  buttons.forEach((btn) => {
+    const icon = btn.querySelector("span");
+    btn.classList.add("spin");
+    icon.textContent = isDark ? "☀️" : "🌙";
 
-  setTimeout(() => {
-    body.classList.toggle("dark");
-    icon.textContent = body.classList.contains("dark") ? "☀️" : "🌙";
-  }, 150); // slight delay to sync animation with icon switch
-
-  // Remove spin class after animation ends
-  setTimeout(() => btn.classList.remove("spin"), 600);
+    // remove spin animation after effect
+    setTimeout(() => btn.classList.remove("spin"), 600);
+  });
 }
+
 
 // Typing
+/* === Smooth typing animation === */
 const typingEl = document.querySelector(".typing");
-const words = ["Jermie", "Merj"];
-let i=0,j=0,deleting=false;
-function typeEffect(){
-  let current=words[i];
-  if(!deleting){
-    typingEl.textContent=current.slice(0,++j);
-    if(j>current.length+2){deleting=true;setTimeout(typeEffect,1000);return;}
-  }else{
-    typingEl.textContent=current.slice(0,--j);
-    if(j<0){deleting=false;i=(i+1)%words.length;}
+const words = ["Merjieee!", "Jermie G."];
+let i = 0, j = 0, deleting = false;
+
+function typeEffect() {
+  const current = words[i];
+  typingEl.textContent = current.substring(0, j);
+
+  if (!deleting && j < current.length) {
+    j++;
+  } else if (deleting && j > 0) {
+    j--;
+  } else if (!deleting && j === current.length) {
+    deleting = true;
+    setTimeout(typeEffect, 1000);
+    return;
+  } else if (deleting && j === 0) {
+    deleting = false;
+    i = (i + 1) % words.length;
   }
-  setTimeout(typeEffect,deleting?100:150);
+
+  setTimeout(typeEffect, deleting ? 70 : 120);
 }
+
 typeEffect();
 
 // Lightbox
-const items=document.querySelectorAll(".portfolio .item img");
-const lightbox=document.getElementById("lightbox");
-const imgBox=lightbox.querySelector("img");
-const titleBox=document.getElementById("lightbox-title");
-const descBox=document.getElementById("lightbox-desc");
-items.forEach(img=>{
-  img.addEventListener("click",()=>{
-    const parent=img.closest(".item");
-    const gallery=img.closest(".portfolio");
+// === FIXED Lightbox ===
+const items = document.querySelectorAll(".portfolio .item img");
+const lightbox = document.getElementById("lightbox");
+const imgBox = lightbox.querySelector("img");
+const titleBox = document.getElementById("lightbox-title");
+const descBox = document.getElementById("lightbox-desc");
+
+items.forEach(img => {
+  img.addEventListener("click", () => {
+    const parent = img.closest(".item");
     lightbox.classList.add("active");
-    imgBox.src=img.src;
-    titleBox.textContent=parent.dataset.title;
-    descBox.textContent=parent.dataset.desc;
-    lightbox.classList.toggle("certification-view",gallery.classList.contains("cert-gallery"));
+    imgBox.src = img.src;
+    titleBox.textContent = parent.dataset.title || "";
+    descBox.textContent = parent.dataset.desc || "";
   });
 });
-function closeLightbox(){lightbox.classList.remove("active","certification-view");}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  imgBox.src = "";
+}
 
 // Scroll reveal
 function revealSections(){
@@ -1071,6 +1382,114 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('resize', () => {
   if (window.innerWidth > 768) closeMenu();
 });
+function scrollToTopAndCloseMenu(event) {
+  event.preventDefault(); // stop default anchor jump
+  // Smooth scroll all the way to the very top (not just the hero)
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+  // Close the hamburger menu on mobile
+  if (window.innerWidth <= 768) {
+    closeMenu();
+  }
+}
+  
+</script>
+<!-- your other JS functions above here (toggleMenu, scrollToTop, etc.) -->
+
+<!-- === EMAILJS Integration === -->
+<!-- === EMAILJS Integration (Modern Glass Popup + Sending Button) === -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS
+  emailjs.init("y1kWrgPMKvqAyX4rY"); // your public key
+
+  const form = document.getElementById("contact-form");
+
+  // Glass-style popup message
+  function showPopup(message, isSuccess = true) {
+    const existingPopup = document.querySelector(".popup-message");
+    if (existingPopup) existingPopup.remove();
+
+    const popup = document.createElement("div");
+    popup.className = "popup-message";
+    popup.textContent = message;
+
+    Object.assign(popup.style, {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%) scale(1)",
+      padding: "1.5rem 2.5rem",
+      borderRadius: "16px",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      color: "#fff",
+      textAlign: "center",
+      zIndex: "9999",
+      letterSpacing: "0.5px",
+      background: isSuccess
+        ? "rgba(124, 58, 237, 0.8)" // purple glass
+        : "rgba(225, 29, 72, 0.85)",
+      backdropFilter: "blur(12px)",
+      boxShadow: "0 0 25px rgba(0, 0, 0, 0.5)",
+      border: "1px solid rgba(255, 255, 255, 0.2)",
+      opacity: "0",
+      transition: "all 0.4s ease",
+      pointerEvents: "none",
+    });
+
+    document.body.appendChild(popup);
+
+    // Animate fade in
+    requestAnimationFrame(() => {
+      popup.style.opacity = "1";
+      popup.style.transform = "translate(-50%, -50%) scale(1.05)";
+    });
+
+    // Fade out
+    setTimeout(() => {
+      popup.style.opacity = "0";
+      popup.style.transform = "translate(-50%, -50%) scale(0.95)";
+      setTimeout(() => popup.remove(), 400);
+    }, 3000);
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const submitBtn = this.querySelector(".submit");
+    const originalText = submitBtn.textContent;
+
+    // Disable and show "Sending..."
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    emailjs
+      .send("service_et50cuh", "template_j8pzyk9", {
+        from_name: this.name.value,
+        from_email: this.email.value,
+        message: this.message.value,
+      })
+      .then(() => {
+        showPopup("Successfully sent!");
+        this.reset();
+      })
+      .catch((error) => {
+        console.error("Failed to send email:", error);
+        showPopup("Failed to send. Please try again later.", false);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      });
+  });
+</script>
+
 </script>
 </body>
 </html>
+
+
