@@ -1054,4 +1054,193 @@ body:not(.dark) textarea:-webkit-autofill {
   -webkit-text-fill-color: var(--text-light) !important;
   transition: background-color 9999s ease-in-out 0s !important;
 }
+/* === Client Feedback (Responsive Horizontal Cards with Scroll Glow) === */
+#clients {
+  text-align: center;
+  padding: 3rem 1rem;
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+}
+
+#clients h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Horizontal scroll slider */
+.client-slider {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.client-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.client-slider::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+/* Square card layout */
+.client-card {
+  flex: 0 0 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  opacity: 0;               /* For scroll reveal */
+  transform: translateY(30px);
+}
+
+/* === Scroll Reveal Animation === */
+@keyframes fadeUpGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 18px 4px rgba(180, 100, 255, 0.35);
+  }
+}
+
+.client-card.reveal-active {
+  animation: fadeUpGlow 0.8s ease-out forwards;
+}
+
+/* === Lighter Purple Glow on Hover/Focus === */
+@keyframes lightPurpleGlow {
+  0% {
+    box-shadow: 0 0 15px 3px rgba(99, 102, 241, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 25px 7px rgba(99, 102, 241, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 15px 3px rgba(99, 102, 241, 0.6);
+  }
+}
+
+.client-card:hover,
+.client-card:focus {
+  transform: translateY(-6px);
+  background: #fff;
+  animation: lightPurpleGlow 1.8s ease-in-out infinite;
+  outline: none;
+}
+
+/* Client image */
+.client-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 3px solid var(--primary);
+  margin-bottom: 0.8rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.client-card:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+}
+
+/* Text */
+.client-card h3 {
+  margin: 0.4rem 0;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.client-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  padding: 0 0.5rem;
+  line-height: 1.4;
+}
+
+/* === Dark Mode === */
+body.dark .client-card {
+  background: rgba(25, 25, 35, 0.9);
+  color: var(--text-dark);
+}
+
+@keyframes lightPurpleGlowDark {
+  0% {
+    box-shadow: 0 0 18px 3px rgba(99, 102, 241, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 28px 7px rgba(99, 102, 241, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 18px 3px rgba(99, 102, 241, 0.6);
+  }
+}
+
+body.dark .client-card:hover,
+body.dark .client-card:focus {
+  background: rgba(35, 35, 50, 1);
+  animation: lightPurpleGlowDark 1.8s ease-in-out infinite;
+}
+
+body.dark .client-card p {
+  color: var(--text-dark);
+}
+
+/* === Responsive Design === */
+
+/* Tablets: 2 cards visible */
+@media (max-width: 1024px) {
+  .client-card {
+    flex: 0 0 45%;
+    height: 300px;
+  }
+}
+
+/* Mobile: 1 card visible (swipeable) */
+@media (max-width: 768px) {
+  .client-slider {
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .client-card {
+    flex: 0 0 85%;
+    height: 300px;
+    scroll-snap-align: center;
+  }
+
+  .client-slider::-webkit-scrollbar {
+    display: none; /* hide scrollbar on mobile */
+  }
+}
+
+/* Very small devices */
+@media (max-width: 480px) {
+  .client-card {
+    flex: 0 0 90%;
+    height: 300px;
+  }
+}
+
 </style>
