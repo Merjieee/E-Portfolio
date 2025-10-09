@@ -1242,5 +1242,21 @@ body.dark .client-card p {
     height: 300px;
   }
 }
+/* === FIX: Remove vertical scrollbar in Clients section === */
+#clients {
+  overflow: hidden; /* hide any vertical overflow */
+}
+
+.client-slider {
+  overflow-x: auto;
+  overflow-y: hidden; /* ✅ prevent vertical scroll */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.client-card {
+  margin: 0; /* ensure no vertical spacing causes scroll */
+  box-sizing: border-box;
+}
 
 </style>
