@@ -1251,6 +1251,22 @@ body.dark .client-card p {
     height: 300px;
   }
 }
+/* === FIX: Remove vertical scrollbar in Clients section === */
+#clients {
+  overflow: hidden; /* hide any vertical overflow */
+}
+
+.client-slider {
+  overflow-x: auto;
+  overflow-y: hidden; /* prevent vertical scroll */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.client-card {
+  margin: 0; /* ensure no vertical spacing causes scroll */
+  box-sizing: border-box;
+}
 
 </style>
 </head>
@@ -1363,25 +1379,31 @@ With a foundation in <strong>Computer System Services</strong>, I’ve developed
     <div class="client-card">
       <img src="bic.jpg" alt="Client 1">
       <h3>Johnbic G.</h3>
-      <p>"POGI MO SHEET"</p>
+      <p><i>"Hotdoggggggggggggggg"</i></p>
     </div>
 
     <div class="client-card">
       <img src="pama.jpg" alt="Client 2">
       <h3>Benjhun P.</h3>
-      <p>"GYMRAT NA MAMAW"</p>
+      <p><i>"BJ tigas mas pinatigas"</i></p>
     </div>
 
     <div class="client-card">
       <img src="bry.jpg" alt="Client 3">
-      <h3>Bryan U.</h3>
-      <p>"PATURO MASTER HAHAHAHAHAHA"</p>
+      <h3>Wawan</h3>
+      <p><i>"ASASDASDAASDASD"</i></p>
+    </div>
+
+    <div class="client-card">
+      <img src="merj2.jpg" alt="Client 4">
+      <h3>Janzen P.</h3>
+      <p><i>"Taga ayos ng code"</i></p>
     </div>
 
     <div class="client-card">
       <img src="merj2.jpg" alt="Client 4">
       <h3>Basta ako</h3>
-      <p>"ANGAS NAMAN NETO"</p>
+      <p><i>"wkwkwkwkwkwkwkwk"</i></p>
     </div>
   </div>
 </section>
@@ -1700,7 +1722,7 @@ function scrollToTopAndCloseMenu(event) {
       })
       .catch((error) => {
         console.error("Failed to send email:", error);
-        showPopup("Failed to send. Please try again later.", false);
+        showPopup("No Internet Connection!", false);
       })
       .finally(() => {
         submitBtn.disabled = false;
@@ -1754,5 +1776,3 @@ window.addEventListener("scroll", () => {
 </script>
 </body>
 </html>
-
-
